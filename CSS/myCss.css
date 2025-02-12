@@ -2323,13 +2323,19 @@ select.form-control {
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
 }
-
+.stat-card > div:last-of-type {
+    text-align: center;
+}
 .stat-card img {
-    height: 70px;
+    width: 70px;
     -o-object-fit: cover;
     object-fit: cover;
-    margin-bottom: 2rem;
 }
 
 .stat-card .num {
@@ -2790,6 +2796,9 @@ footer > div > div.row.f-cont > div:nth-child(3) {
     .grid-row {
         grid-template-columns: repeat(2, 1fr);
     }
+    .cards-sec .row {
+        gap: 30px 0;
+    }
 }
 
 @media (max-width: 768px) {
@@ -2802,6 +2811,9 @@ footer > div > div.row.f-cont > div:nth-child(3) {
 
     .vsoc-wr a svg {
         stroke: #fff;
+    }
+    .serv-sec .row > div {
+        height: 340px;
     }
 }
 
@@ -3013,7 +3025,7 @@ footer > div > div.row.f-cont > div:nth-child(3) {
     font-size: 35px;
 }
 .call-to-action-content p {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
 }
 .call-to-action-content .action-btns {

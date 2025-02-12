@@ -283,9 +283,11 @@
                         <div class="img-wr">
                             <img src="imgs/experience.png" alt="img">
                         </div>
-                        <div class="num">8</div>
-                        <div class="text">
-                            سنوات من الخبرة
+                        <div>
+                            <div class="num">8</div>
+                            <div class="text">
+                                سنوات من الخبرة
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -294,9 +296,11 @@
                         <div class="img-wr">
                             <img src="imgs/network.png" alt="img">
                         </div>
-                        <div class="num">4 مليار</div>
-                        <div class="text">
-                            ظهور عملائنا على المنصات
+                        <div>
+                            <div class="num">4 مليار</div>
+                            <div class="text">
+                                ظهور عملائنا على المنصات
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -305,9 +309,11 @@
                         <div class="img-wr">
                             <img src="imgs/ads.png" alt="img">
                         </div>
-                        <div class="num">450</div>
-                        <div class="text">
-                            حملات إعلانية ناجحة
+                        <div>
+                            <div class="num">450</div>
+                            <div class="text">
+                                حملات إعلانية ناجحة
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -316,9 +322,11 @@
                         <div class="img-wr">
                             <img src="imgs/master.png" alt="img">
                         </div>
-                        <div class="num">4,000</div>
-                        <div class="text">
-                            أعمال إبداعية منجزة
+                        <div>
+                            <div class="num">4,000</div>
+                            <div class="text">
+                                أعمال إبداعية منجزة
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -919,6 +927,70 @@
         document.getElementById('overlay-pop').addEventListener('click', function (e) {
             this.style.display = 'none';
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const section = document.querySelector('.cards-sec');
+
+            if (section) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Select all .num elements within the section
+                            const numElements = section.querySelectorAll('.num');
+
+                            numElements.forEach(el => {
+                                // Get the parent stat-card's wow delay
+                                const statCard = el.closest('.stat-card');
+                                const wowDelay = statCard ? statCard.getAttribute('data-wow-delay') : '0ms';
+                                const delay = parseInt(wowDelay) || 0;
+
+                                // Extract numeric value and suffix
+                                const originalText = el.textContent.trim();
+                                const match = originalText.match(/^([\d,]+)(.*)/);
+
+                                if (match) {
+                                    const numberPart = match[1].replace(/,/g, '');
+                                    const targetNumber = parseInt(numberPart, 10);
+                                    const suffix = match[2].trim() ? ' ' + match[2].trim() : '';
+
+                                    // Start animation after the wow delay
+                                    setTimeout(() => {
+                                        animateNumber(el, targetNumber, suffix, 2000); // 2000ms duration
+                                    }, delay);
+                                }
+                            });
+
+                            // Stop observing after triggering once
+                            observer.unobserve(section);
+                        }
+                    });
+                }, { threshold: 0.5 }); // Trigger when 50% visible
+
+                observer.observe(section);
+            }
+
+            function animateNumber(element, target, suffix, duration) {
+                let startTimestamp = null;
+
+                const formatNumber = (num) => num.toLocaleString('en-US');
+
+                const update = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = timestamp - startTimestamp;
+                    const percentage = Math.min(progress / duration, 1);
+                    const current = Math.floor(percentage * target);
+
+                    element.textContent = formatNumber(current) + suffix;
+
+                    if (percentage < 1) {
+                        requestAnimationFrame(update);
+                    }
+                };
+
+                requestAnimationFrame(update);
+            }
+        });
+
     </script>
 </body>
 
